@@ -1,0 +1,75 @@
+{
+  "artifacts": [],
+  "command": "expe_nmf_main",
+  "experiment": {
+    "base_dir": "/home/a23marmo/Desktop/Projects/Save git internal/Code/bioac_jjba/experiments",
+    "dependencies": [
+      "nn-fac==0.2.1",
+      "numpy==1.23.5",
+      "sacred==0.8.5",
+      "tqdm==4.66.4"
+    ],
+    "mainfile": "anuraset_nmf_count.py",
+    "name": "NMF on Anuraset for source count estimation",
+    "repositories": [
+      {
+        "commit": "da04a580a1aa2dbd5ef68636f89af478a99bc738",
+        "dirty": true,
+        "url": "git@gitlab.imt-atlantique.fr:a23marmo/internal_save_crado.git"
+      }
+    ],
+    "sources": [
+      [
+        "anuraset_nmf_count.py",
+        "_sources/anuraset_nmf_count_e15b54e0912dc8234f8315f892c4e857.py"
+      ]
+    ]
+  },
+  "heartbeat": "2024-06-13T20:23:47.026191",
+  "host": {
+    "ENV": {},
+    "cpu": "Intel(R) Core(TM) i5-9500 CPU @ 3.00GHz",
+    "hostname": "EQI9469",
+    "os": [
+      "Linux",
+      "Linux-6.5.0-35-generic-x86_64-with-glibc2.35"
+    ],
+    "python_version": "3.10.12"
+  },
+  "meta": {
+    "command": "expe_nmf_main",
+    "config_updates": {
+      "beta": 0,
+      "feature": "mel",
+      "subset": "INCT20955"
+    },
+    "named_configs": [],
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--id": "beta0_nmf10_featuremel_subsetINCT20955",
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2024-06-13T20:15:20.367567",
+  "status": "COMPLETED",
+  "stop_time": "2024-06-13T20:23:47.025490"
+}

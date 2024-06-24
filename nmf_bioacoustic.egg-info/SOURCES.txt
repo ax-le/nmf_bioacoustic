@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+nmf_bioacoustic.egg-info/PKG-INFO
+nmf_bioacoustic.egg-info/SOURCES.txt
+nmf_bioacoustic.egg-info/dependency_links.txt
+nmf_bioacoustic.egg-info/requires.txt
+nmf_bioacoustic.egg-info/top_level.txt
