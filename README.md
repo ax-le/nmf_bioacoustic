@@ -15,6 +15,7 @@ For now, this repository is mainly a Proof-Of-Concpet that NMF-like methods can 
 This repository does not include the NMF code, which is instead maintained in the github project `nn_fac` of the current corresponding author (https://gitlab.imt-atlantique.fr/a23marmo/nonnegative-factorization/).
 
 ## Installation
+
 You should first clone/fork/dowload this repository.
 
 You should then install the requirements using the command
@@ -26,4 +27,5 @@ And finally install the code using
 This is the recommended way for installing the code. You may use another method, but note that the project was probably neither designed nor tested on a different way.
 
 ## Contact
+
 Don't hesitate to contact me at the following mail adress if you have any question: axel.marmoret@imt-atlantique.fr

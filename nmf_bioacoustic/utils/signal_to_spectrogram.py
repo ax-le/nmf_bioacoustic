@@ -4,11 +4,18 @@ Created on Wed Mar 25 16:54:59 2020
 
 @author: amarmore
 
-Computing spectrogram in different feature description.
+Computing spectrogram in different feature description, using the library librosa [1].
 
-Note that Mel (and variants of Mel) spectrograms follow the particular definition of [1].
+Note that Mel (and variants of Mel) spectrograms follow the particular definition of [2].
 
-[1] Grill, T., & Schlüter, J. (2015, October). 
+
+References
+----------
+[1] McFee, B., Raffel, C., Liang, D., Ellis, D. P., McVicar, M., Battenberg, E., & Nieto, O. (2015, July).
+librosa: Audio and music signal analysis in python. 
+In Proceedings of the 14th python in science conference (Vol. 8).
+
+[2] Grill, T., & Schlüter, J. (2015, October). 
 Music Boundary Detection Using Neural Networks on Combined Features and Two-Level Annotations. 
 In ISMIR (pp. 531-537).
 """
@@ -24,7 +31,46 @@ import IPython.display as ipd
 mel_power = 2
 
 class FeatureObject():
+    # An object to store the parameters of the spectrogram
     def __init__(self, sr, feature, hop_length, n_fft=2048, fmin = 0, fmax=None, mel_grill = True, n_mels=80):
+        """
+        Initializes the object with the parameters of the spectrogram.
+
+        Parameters
+        ----------
+        sr : float
+            Sampling rate of the signal, (typically 44100Hz).
+        feature : String
+            The types of spectrograms to compute.
+                - "pcp" : Pitch class profile
+                - "cqt" : Constant-Q transform
+                - "mel" : Mel spectrogram
+                - "log_mel" : Log Mel spectrogram
+                - "nn_log_mel" : Nonnegative Log Mel spectrogram
+                - "padded_log_mel" : Padded Log Mel spectrogram
+                - "minmax_log_mel" : Min-max normalized Log Mel spectrogram
+                - "stft" : Short-time Fourier transform
+                - "stft_complex" : Complex Short-time Fourier transform
+        hop_length : integer
+            The desired hop_length, which is the step between two frames (ie the time "discretization" step)
+            It is expressed in terms of number of samples, which are defined by the sampling rate.
+        n_fft : integer, optional
+            The number of samples to use in the FFT.
+            The default is 2048.
+        fmin : integer, optional
+            The minimal frequence to consider, used for denoising.
+            The default is 0.
+        fmax : integer, optional
+            The maximal frequence to consider, used for denoising.
+            The default is None.
+        mel_grill : boolean, optional
+            If True, the Mel spectrogram is computed with the parameters of [2].
+            Only used if feature is "mel" or derivates (like "log_mel" or "nn_log_mel").
+            The default is True.
+        n_mels : integer, optional
+            Number of mel bands to consider.
+            The default is 80.
+        """
         self.sr = sr
         self.feature = feature.lower()
         self.hop_length = hop_length
@@ -51,28 +97,13 @@ class FeatureObject():
     def get_spectrogram(self, signal):
         """
         Returns a spectrogram, from the signal of a song.
-        Different types of spectrogram can be computed, which are specified by the argument "feature".
+        Different types of spectrogram can be computed, see the docstrig of the object constructor.
         All these spectrograms are computed with the toolbox librosa [1].
         
         Parameters
         ----------
         signal : numpy array
             Signal of the song.
-        sr : float
-            Sampling rate of the signal, (typically 44100Hz).
-        feature : String
-            The types of spectrograms to compute.
-                TODO
-
-        hop_length : integer
-            The desired hop_length, which is the step between two frames (ie the time "discretization" step)
-            It is expressed in terms of number of samples, which are defined by the sampling rate.
-        fmin : integer, optional
-            The minimal frequence to consider, used for denoising.
-            The default is 98.
-        n_mfcc : integer, optional
-            Number of mfcc features.
-            The default is 20 (as in librosa).
 
         Raises
         ------
@@ -83,16 +114,6 @@ class FeatureObject():
         -------
         numpy array
             Spectrogram of the signal.
-            
-        References
-        ----------
-        [1] McFee, B., Raffel, C., Liang, D., Ellis, D. P., McVicar, M., Battenberg, E., & Nieto, O. (2015, July).
-        librosa: Audio and music signal analysis in python. 
-        In Proceedings of the 14th python in science conference (Vol. 8).
-        
-        [2] Grill, T., & Schlüter, J. (2015, October). 
-        Music Boundary Detection Using Neural Networks on Combined Features and Two-Level Annotations. 
-        In ISMIR (pp. 531-537).
         """
         match self.feature:
             case "pcp":
@@ -119,6 +140,9 @@ class FeatureObject():
                 raise err.InvalidArgumentValueException(f"Unknown signal representation: {self.feature}.")
         
     def _compute_pcp(self, signal):
+        """
+        Computes the Pitch Class Profile of a signal.
+        """
         norm=inf # Columns normalization
         win_len_smooth=82 # Size of the smoothign window
         n_octaves=6
@@ -130,10 +154,16 @@ class FeatureObject():
                                     norm=norm, win_len_smooth=win_len_smooth)
 
     def _compute_cqt(self, signal):
+        """
+        Computes the Constant-Q Transform of a signal.
+        """
         constant_q_transf = librosa.cqt(y=signal, sr = self.sr, hop_length = self.hop_length)
         return np.abs(constant_q_transf)
 
     def _compute_mel_spectrogram(self, signal):
+        """
+        Computes the Mel spectrogram of a signal.
+        """
         if self.mel_grill:
             mel = librosa.feature.melspectrogram(y=signal, sr = self.sr, n_fft=2048, hop_length = self.hop_length, n_mels=80, fmin=80.0, fmax=16000, power=mel_power)
         else:
@@ -141,6 +171,9 @@ class FeatureObject():
         return np.abs(mel)
         
     def _compute_stft(self, signal, complex):
+        """
+        Computes the Short-time Fourier Transform of a signal.
+        """
         stft = librosa.stft(y=signal, hop_length=self.hop_length,n_fft=self.n_fft)
         if complex:
             mag, phase = librosa.magphase(stft, power = 1)
@@ -149,6 +182,9 @@ class FeatureObject():
             return np.abs(stft)
         
     def get_stft_from_mel(self, mel_spectrogram, feature=None):
+        """
+        Computes the STFT from a Mel spectrogram.
+        """
         if feature is None: # Recursive function, so it takes the feature as an argument
             feature = self.feature # Default case takes the object feature as the feature to compute
 

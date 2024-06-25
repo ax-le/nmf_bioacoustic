@@ -1,3 +1,11 @@
+"""
+Created on April 2024
+
+@author: a23marmo
+
+Code to listen to audio based on spectrograms, and to compute the SDR between two audio signals.
+"""
+
 import IPython.display as ipd
 import mir_eval
 import numpy as np
@@ -14,11 +22,15 @@ def listen_to_this_spectrogram(spectrogram, feature_object, phase_retrieval = "g
     ----------
     spectrogram : numpy array
         The spectrogram to be inverted.
-    hop_length : integer
-        The hop length, in number of samples.
-    sampling_rate : integer, optional
-        The sampling rate of the signal, in Hz.
-        The default is 44100.
+    feature_object : FeatureObject
+        Feature object, defining the important parameters to compute spectrograms.
+    phase_retrieval : str
+        Method to retrieve the phase of the audio. It can be 'original_phase' or 'griffin_lim'.
+        If set to 'original_phase', the original_phase parameter is used as an estimation of the phase.
+        If set to 'griffin_lim', the phase is estimated using the Griffin-Lim algorithm.
+    original_phase : numpy array
+        Phase of the original audio, to be used in the phase retrieval.
+        Only used if phase_retrieval is 'original_phase'.
 
     Returns
     -------

@@ -1,13 +1,23 @@
+"""
+Created on June 2024
+
+@author: a23marmo
+
+Code used to small data manipulation tasks, like conversion between time and frames.
+"""
+
 def time_to_frame(time_seconds, sr, hl):
     """
     Compute the index of the frame given a time in seconds.
 
-    Parameters:
+    Parameters
+    ----------
     - time_seconds: Time in seconds.
     - sr: Sampling rate in Hz.
     - hl: Hop length in samples.
 
-    Returns:
+    Returns
+    -------
     - frame_index: Index of the frame.
     """
     # Convert time to samples
@@ -20,12 +30,14 @@ def frame_to_time(frame_index, sr, hl):
     """
     Compute the time in seconds given the frame index.
 
-    Parameters:
+    Parameters
+    ----------
     - frame_index: Index of the frame.
     - sr: Sampling rate in Hz.
     - hl: Hop length in samples.
 
-    Returns:
+    Returns
+    -------
     - time_seconds: Time in seconds.
     """
     # Compute time in samples
@@ -36,6 +48,15 @@ def frame_to_time(frame_index, sr, hl):
 
 def crop_time(spec, time_limit_s, sr, hl):
     """
+    Crop the spectrogram to a certain time limit.
+    Automatically converts the time_limit in seconds to the frame index.
+
+    Parameters
+    ----------
+    - spec: Spectrogram to be cropped.
+    - time_limit_s: Time limit in seconds.
+    - sr: Sampling rate in Hz.
+    - hl: Hop length in samples.
     """
     # Compute the number of frames to keep
     limit_frame = time_to_frame(time_limit_s, sr, hl)
