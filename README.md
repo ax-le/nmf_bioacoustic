@@ -13,6 +13,7 @@ In particular, these tasks have been tested with the same method for both amphib
 For now, this repository is mainly a Proof-Of-Concpet that NMF-like methods can be used. This is intended to be developed, and future work should be carried to consolidate the first conclusions.
 
 This repository does not include the NMF code, which is instead maintained in the github project `nn_fac` of the current corresponding author (https://gitlab.imt-atlantique.fr/a23marmo/nonnegative-factorization/).
+
 ## Installation
 You should first clone/fork/dowload this repository.
 
@@ -24,6 +25,5 @@ And finally install the code using
 
 This is the recommended way for installing the code. You may use another method, but note that the project was probably neither designed nor tested on a different way.
 
-# Contact
-
+## Contact
 Don't hesitate to contact me at the following mail adress if you have any question: axel.marmoret@imt-atlantique.fr
