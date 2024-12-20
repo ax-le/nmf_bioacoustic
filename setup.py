@@ -29,7 +29,7 @@ setuptools.setup(
         'matplotlib',
         'mir_eval',
         'nn_fac>=0.3.1',
-        'numpy >= 1.8.0,<1.24',
+        'numpy >= 1.8.0',
         'pandas',
         'sacred',
         'scikit_learn',
